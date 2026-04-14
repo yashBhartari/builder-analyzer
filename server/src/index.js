@@ -39,11 +39,19 @@ connectDB();
 setupSocketIO(io);
 
 // Security Middleware
+/* 
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: false,
-  crossOriginOpenerPolicy: false // Required for Firebase Auth popups
+  crossOriginOpenerPolicy: false 
 }));
+*/
+
+// Explicit COOP header for all responses
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+  next();
+});
 
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:5174', process.env.CLIENT_URL],

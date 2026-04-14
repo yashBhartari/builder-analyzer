@@ -23,7 +23,8 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/auth/google", "destination": "/server/src/index.js" },
     { "source": "/api/(.*)", "destination": "/server/src/index.js" },
-    { "source": "/(.*)", "destination": "client/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
