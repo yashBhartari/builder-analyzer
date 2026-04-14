@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "server/src/**"
+    }
+  },
   "builds": [
     {
       "src": "api/index.js",
@@ -26,8 +31,8 @@
           "value": "unsafe-none"
         },
         {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
         }
       ]
     }
