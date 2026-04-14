@@ -44,11 +44,9 @@ app.use(helmet({
 }));
 */
 
-// Explicit COOP header for all responses - updated to allow popups as requested
+// Middleware to allow popups (moved to vercel.json for consistency)
 app.use((req, res, next) => {
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  // We let Vercel handle the COOP headers to avoid conflicts
   next();
 });
 
@@ -62,6 +60,12 @@ app.use(cors({
 // Body Parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Path Logging Middleware
+app.use((req, res, next) => {
+  console.log(`[Express] ${req.method} ${req.url}`);
+  next();
+});
 
 // Rate Limiting
 app.use('/api/', rateLimiter);
