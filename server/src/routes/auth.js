@@ -181,6 +181,15 @@ router.post('/google', authLimiter, asyncHandler(async (req, res) => {
   });
 }));
 
+// GET /api/auth/google (For debugging / direct access test as requested)
+router.get('/google', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Google Auth route is reachable! Use POST with firebaseData to login.',
+    url: req.originalUrl
+  });
+});
+
 // POST /api/auth/refresh-token
 router.post('/refresh-token', asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
