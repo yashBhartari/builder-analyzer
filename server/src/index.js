@@ -44,9 +44,11 @@ app.use(helmet({
 }));
 */
 
-// Explicit COOP header for all responses
+// Explicit COOP header for all responses - updated to allow popups as requested
 app.use((req, res, next) => {
-  res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 });
 
