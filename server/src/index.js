@@ -67,18 +67,31 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Rate Limiting
 app.use('/api/', rateLimiter);
 
-// Health Check
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString(), version: '1.0.0' });
-});
+// Health Check (Handles /api/health or /health)
+const healthCheck = (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString(), version: '1.0.0', url: req.url });
+};
+app.get('/api/health', healthCheck);
+app.get('/health', healthCheck);
 
 // API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/resumes', resumeRoutes);
-app.use('/api/analyzer', analyzerRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/templates', templateRoutes);
+// We mount them both on /api and root to handle any Vercel routing variations
+const mountRoutes = (router) => {
+  router.use('/auth', authRoutes);
+  router.use('/resumes', resumeRoutes);
+  router.use('/analyzer', analyzerRoutes);
+  router.use('/users', userRoutes);
+  router.use('/admin', adminRoutes);
+  router.use('/templates', templateRoutes);
+};
+
+// Mount for locally and standard Vercel calls
+const apiRouter = express.Router();
+mountRoutes(apiRouter);
+app.use('/api', apiRouter);
+
+// Fallback mount if /api is stripped by Vercel
+mountRoutes(app);
 
 // Error Handler
 app.use(errorHandler);
