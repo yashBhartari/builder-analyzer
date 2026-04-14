@@ -1,0 +1,1 @@
+# Task: Fix Login 404 and COOP Errors\n\n## Plan Steps:\n1. [ ] Fix COOP policy in server/src/index.js for Firebase popup compatibility\n2. [ ] Start backend server (cd server && npm run dev)\n3. [ ] Verify client dev server running (cd client && npm run dev)\n4. [ ] Test Google login flow at http://localhost:5173/login\n5. [ ] ✅ Task complete\n
