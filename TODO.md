@@ -1,1 +1,10 @@
-# Task: Fix Login 404 and COOP Errors\n\n## Plan Steps:\n1. [ ] Fix COOP policy in server/src/index.js for Firebase popup compatibility\n2. [ ] Start backend server (cd server && npm run dev)\n3. [ ] Verify client dev server running (cd client && npm run dev)\n4. [ ] Test Google login flow at http://localhost:5173/login\n5. [ ] ✅ Task complete\n
+## Fix Login Errors TODO
+
+✅ **Step 1:** Update vite.config.js with COOP header for dev server (fixes popup close)
+
+**Next steps:**
+✅ **Step 2:** Start server: `cd server && npm start` (port 5000, fixes 404) 
+- [ ] **Step 3:** Restart Vite dev: `cd client && npm run dev`
+- [ ] **Step 4:** Test login & Google auth
+- [ ] **Step 5:** Deploy to Vercel (`vercel --prod`)
+

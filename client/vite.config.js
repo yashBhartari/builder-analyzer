@@ -6,6 +6,9 @@ export default defineConfig({
   envDir: '../',
   server: {
     port: 5173,
+    headers: {
+      'Cross-Origin-Opener-Policy': 'unsafe-none'
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
