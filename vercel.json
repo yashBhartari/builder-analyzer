@@ -11,8 +11,19 @@
       "config": { "distDir": "dist" }
     }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/server/src/index.js" },
-    { "source": "/(.*)", "destination": "/client/index.html" }
+    { "source": "/(.*)", "destination": "client/index.html" }
   ]
 }
