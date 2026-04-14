@@ -3,13 +3,13 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCw-7sv3J1O3-6ncX3ymkTurB3Kij5OqzA",
-  authDomain: "builder-2b5fa.firebaseapp.com",
-  projectId: "builder-2b5fa",
-  storageBucket: "builder-2b5fa.firebasestorage.app",
-  messagingSenderId: "499095449699",
-  appId: "1:499095449699:web:d7a657d64a7ae6bec50856",
-  measurementId: "G-6HRPV4HRSY"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
