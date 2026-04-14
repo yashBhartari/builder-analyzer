@@ -42,7 +42,7 @@ setupSocketIO(io);
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: false,
-crossOriginOpenerPolicy: process.env.NODE_ENV === 'production' ? 'same-origin' : false
+  crossOriginOpenerPolicy: false // Required for Firebase Auth popups
 }));
 
 app.use(cors({
