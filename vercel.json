@@ -1,4 +1,5 @@
 {
+  "name": "builder-analyzer-app",
   "version": 2,
   "functions": {
     "api/index.js": {
