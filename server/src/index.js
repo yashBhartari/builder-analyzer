@@ -4,8 +4,6 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
 import { setupSocketIO } from './config/socket.js';
 import authRoutes from './routes/auth.js';
@@ -44,11 +42,7 @@ app.use(helmet({
 }));
 */
 
-// Middleware to allow popups (moved to vercel.json for consistency)
-app.use((req, res, next) => {
-  // We let Vercel handle the COOP headers to avoid conflicts
-  next();
-});
+
 
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:5174', process.env.CLIENT_URL],
@@ -70,31 +64,18 @@ app.use((req, res, next) => {
 // Rate Limiting
 app.use('/api/', rateLimiter);
 
-// Health Check (Handles /api/health or /health)
-const healthCheck = (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString(), version: '1.0.0', url: req.url });
-};
-app.get('/api/health', healthCheck);
-app.get('/health', healthCheck);
+// Health Check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString(), version: '1.0.0' });
+});
 
 // API Routes
-// We mount them both on /api and root to handle any Vercel routing variations
-const mountRoutes = (router) => {
-  router.use('/auth', authRoutes);
-  router.use('/resumes', resumeRoutes);
-  router.use('/analyzer', analyzerRoutes);
-  router.use('/users', userRoutes);
-  router.use('/admin', adminRoutes);
-  router.use('/templates', templateRoutes);
-};
-
-// Mount for locally and standard Vercel calls
-const apiRouter = express.Router();
-mountRoutes(apiRouter);
-app.use('/api', apiRouter);
-
-// Fallback mount if /api is stripped by Vercel
-mountRoutes(app);
+app.use('/api/auth', authRoutes);
+app.use('/api/resumes', resumeRoutes);
+app.use('/api/analyzer', analyzerRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/templates', templateRoutes);
 
 // Error Handler
 app.use(errorHandler);
@@ -104,12 +85,10 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
-  const PORT = process.env.PORT || 5000;
-  server.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  });
-}
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+});
 
 export default app;
