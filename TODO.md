@@ -1,1 +1,7 @@
-# Fix Login 404 & COOP Errors\n\n## Status: [✅] 3/8 Completed\n\n### 1. ✅ Backend Setup\n```cmd\ncd server\nnpm install  (done)\nnpm start     ← **MANUAL: Run this now**\n```\n\n### 2. ✅ Frontend Setup\n```cmd\ncd client\nnpm run dev   ← **MANUAL: Run this now**\n```\n\n### 3. Test Server Health [ ] \nVisit: http://localhost:5000/api/health → expect {\"status\":\"OK\"}\n\n### 4. Verify Environment [ ]\nRoot .env: VITE_API_URL=/api (uses Vite proxy)\n\n### 5. Restart Dev Servers [ ]\nFixes COOP + cache issues\n\n### 6. Test Google Login [ ]\nNetwork: POST /api/auth/google (200 OK)\n\n### 7. Test Email Login [ ]\nNetwork: POST /api/auth/login (200 OK)\n\n### 8. COOP Fixed [ ]\nNo console window.close() errors\n\n## Windows CMD Commands (Copy-paste each line):\n**Terminal 1 (Backend):**\n```cmd\ncd /d \"c:/Users/shubh/Desktop/gravity/server\"\nnpm start\n```\n**Terminal 2 (Frontend):**\n```cmd\ncd /d \"c:/Users/shubh/Desktop/gravity/client\"\nnpm run dev\n```\n\n## Expected:\n- Server: http://localhost:5000/api/health\n- Client: http://localhost:5173 → Login works, no 404s\n\n**Run server/client now → mark steps 1-3 complete!**\n
+# Task: Fix COOP window.close() Error in PDF Export
+
+## Steps:
+- [x] 1. Create TODO.md ✅
+- [x] 4. Deploy to Vercel (if applicable) ✅\n- [x] 5. Test export PDF button ✅
+- [ ] 6. Complete task
+

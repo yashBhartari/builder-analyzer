@@ -63,7 +63,10 @@ export default function BuilderToolbar({ resume, previewMode, setPreviewMode }) 
       </html>
     `)
     printWindow.document.close()
-    setTimeout(() => { printWindow.print(); printWindow.close() }, 800)
+    printWindow.print()
+    printWindow.onafterprint = () => {
+      setTimeout(() => printWindow.close(), 250) // slight delay for cleanup
+    }
     toast.success('Opening print dialog for PDF export...')
   }
 

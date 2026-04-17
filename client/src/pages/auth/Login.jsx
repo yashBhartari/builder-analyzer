@@ -46,7 +46,7 @@ export default function Login() {
         firebaseData: {
           uid: result.user.uid,
           email: result.user.email,
-          name: result.user.displayName,
+          name: result.user.displayName || result.user.email.split('@')[0],
           picture: result.user.photoURL
         }
       })
@@ -55,8 +55,9 @@ export default function Login() {
       toast.success('Logged in successfully!')
       navigate('/dashboard')
     } catch (err) {
-      console.error(err)
-      toast.error(err.response?.data?.message || err.message || 'Google login failed')
+      console.error('Google auth error:', err)
+      const errorMessage = err.response?.data?.message || err.message || 'Google login failed'
+      toast.error(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -220,3 +221,4 @@ export default function Login() {
     </div>
   )
 }
+

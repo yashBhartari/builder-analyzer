@@ -122,19 +122,28 @@ router.post('/login', authLimiter, loginValidation, asyncHandler(async (req, res
 // POST /api/auth/google
 router.post('/google', authLimiter, asyncHandler(async (req, res) => {
   const { credential, firebaseData } = req.body;
+  console.log('[Auth] Google Login Attempt:', { 
+    hasFirebaseData: !!firebaseData, 
+    hasCredential: !!credential 
+  });
+
   let googleId, email, name, picture;
 
   if (firebaseData) {
+    console.log('[Auth] Using Firebase Data:', firebaseData.email);
     ({ uid: googleId, email, name, picture } = firebaseData);
   } else if (credential) {
     try {
+      console.log('[Auth] Verifying Google Credential...');
       const ticket = await googleClient.verifyIdToken({
         idToken: credential,
         audience: process.env.GOOGLE_CLIENT_ID
       });
       const payload = ticket.getPayload();
       ({ sub: googleId, email, name, picture } = payload);
+      console.log('[Auth] Google Credential Verified:', email);
     } catch (error) {
+      console.error('[Auth] Google Verify Error:', error.message);
       return res.status(401).json({ success: false, message: 'Invalid Google credential' });
     }
   } else {

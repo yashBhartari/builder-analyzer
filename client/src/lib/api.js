@@ -25,14 +25,19 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const original = error.config
+    const requestUrl = original?.url || ''
 
-    if (error.response?.status === 401 && !original._retry) {
+    // Don't intercept 401s from auth endpoints — those are intentional
+    // "wrong credentials" responses, not "session expired" signals
+    const isAuthRoute = requestUrl.startsWith('auth/')
+
+    if (error.response?.status === 401 && !original._retry && !isAuthRoute) {
       original._retry = true
       const { refreshToken, setAuth, logout } = useAuthStore.getState()
 
       if (refreshToken) {
         try {
-          const res = await axios.post(`${API_BASE}/auth/refresh-token`, { refreshToken })
+          const res = await axios.post(`${API_BASE}auth/refresh-token`, { refreshToken })
           const { token, refreshToken: newRefresh, user } = res.data
           setAuth(user || useAuthStore.getState().user, token, newRefresh)
           original.headers.Authorization = `Bearer ${token}`
